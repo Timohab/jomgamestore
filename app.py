@@ -75,5 +75,47 @@ def reg():
         response = make_response(redirect(f"/main"))
         return response
 
+@app.route("/games/<id>", methods =['GET','POST'])
+def game(id):
+    print(id)
 
+    with sqlite3.connect("jomgamestore.db")as cur:
+        sql=f"SELECT * FROM games WHERE id = '{id}' "
+        result = cur.execute(sql).fetchone()
+        if(result):
+
+            return render_template('index.html',data=result)
+
+
+@app.route("/games/<id>/play")
+def play(id):
+    with sqlite3.connect("jomgamestore.db")as cur:
+        sql=f"SELECT * FROM games WHERE id = '{id}' "
+        result = cur.execute(sql).fetchone()
+        if(result):
+            return render_template(id+'/index.html')
+
+@app.route("/gamelist", methods=['GET','POST'])
+def gamelist():
+    if request.method =='GET':
+        with sqlite3.connect("jomgamestore.db") as cur:
+            sql = f"SELECT * FROM games"
+            games = cur.execute(sql).fetchall()
+        
+        print(games)
+        return (render_template('search.html' , data = games))
+
+@app.route("/search", methods=['GET','POST'])
+def search():
+    if request.method =='GET':
+        return (render_template('search.html'))
+    if request.method =='POST':
+        name = request.form.get('name')
+        with sqlite3.connect("jomgamestore.db") as cur:
+            sql = f"SELECT * FROM games WHERE name like '%{name}%'"
+            games = cur.execute(sql).fetchall()
+            if(games):
+                print(games)
+                return (render_template('search.html' , data = games))
 app.run(debug=True)
+'''пред-укзать в поле зпросаа'''

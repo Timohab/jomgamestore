@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .design {
+
+            padding: 5px 20px;
+            text-decoration: none;
+            cursor: pointer;
+            font: 12px/1 Arial, sans-serif;
+            color: #2c539e;
+        }
+    </style>
+</head>
+<body>
+    <form action="/search" method="POST">
+        поиск
+        <input type="text" name="name"width="25%" >
+        <input type="submit">
+    </form>
+    {% for i in data %}
+    <a href="/games/{{i[0]}}" class="design">
+        <img src="../static/imgs/pre-imgs/{{i[4]}}" width="20%" height="40%">
+        {{i[0]}}
+        {{i[1]}}
+    </a>
+    {% endfor %}
+
+</body>
+</html>
